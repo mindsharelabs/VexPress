@@ -7,8 +7,8 @@ Version:     0.1-alpha
 Author:      winston riley
  */
 
-$pluginDIR = "/wp-content/plugins/vexModal/";
-$vexStyle = "vex-theme-wireframe";
+$pluginDIR = "/wp-content/plugins/VexPress/";
+$vexStyle = "vex-theme-plain";
 $content = "this is jsust some dummy content to see if and how worpress pipes info to java script";
 
 $input = "
@@ -45,4 +45,4 @@ function loadOnFrontPage()
 }
 
 
-add_action('wp_head', 'showModal');
+add_action('wp_head', 'loadOnFrontPage');

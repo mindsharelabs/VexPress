@@ -5,27 +5,21 @@
 // this is where the logic for displaying the dialog lives...
 
 vex.defaultOptions.className = wp_vars.vexstyle; 
+var $ = jQuery; 
+
+var showFirstSlide = function(call_back){
+  vex.dialog.buttons.YES.text = 'I AGREE';
+  vex.dialog.buttons.NO.text = 'I DISAGREE';
+  
+  vex.dialog.confirm({
+    message: 'Do you Want to be stronger and such?',
+    overlayCSS : {
+      'background' : 'rgba(0, 0, 0, 0.8)',
+    },
+  });
+}
 
 jQuery(document).ready(function(){  
-  // vex.dialog.alert(wp_vars.content);
-  $ = jQuery;
-  vex.dialog.open({
-    message: 'Enter your username and password:',
-    input: wp_vars.input,
-    buttons: [
-      $.extend({}, vex.dialog.buttons.YES, {
-        text: 'Login'
-      }), $.extend({}, vex.dialog.buttons.NO, {
-        text: 'Back'
-      })
-    ],
-    callback: function(data) {
-      if (data === false) {
-        return console.log('Cancelled');
-      }
-      return console.log('Username', data.username, 'Password', data.password);
-    }
-  });
-  
+  showFirstSlide();
 });
 
