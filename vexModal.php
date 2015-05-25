@@ -8,25 +8,24 @@ Author:      winston riley
  */
 
 $pluginDIR = "/wp-content/plugins/VexPress/";
-$vexStyle = "vex-theme-plain";
+$vexStyleSheet = "vex-theme-plain";
 
 // register the vex press options, a way to pass info to JS.
+add_action('admin_init', 'vexp_init');
 function vexp_init()
 {
   register_setting('vexp_options', 'vexp_message');
 }
-add_action('admin_init', 'vexp_init');
+
 
 
 function vexp_showModal()
 {
   global $pluginDIR;
-  global $vexStyle;
-  global $content;
-  global $input;
+  global $vexStyleSheet;
 
   // vex replies on both style sheets
-  wp_enqueue_style("vex-theme-os", $pluginDIR . "css/{$vexStyle}.css");
+  wp_enqueue_style("vex-theme-os", $pluginDIR . "css/{$vexStyleSheet}.css");
   wp_enqueue_style("vex-base", $pluginDIR . "css/vex.css");
   
   wp_enqueue_script('vex', $pluginDIR . "js/vex.combined.min.js", array('jquery')); // vex js 
@@ -35,18 +34,18 @@ function vexp_showModal()
   wp_enqueue_script('showModal', $pluginDIR . "showModal.js", array('vex'));
   
   wp_localize_script('showModal', 'wp_vars', array(
-    'vexstyle' => $vexStyle, // sets the dialog box style inside JS.
+    'vexstyle' => $vexStyleSheet, // sets the dialog box style inside JS.
     'message' => get_option('vexp_message'),
   ));  
 }
 
+add_action('wp_head', 'vexp_loadOnFrontPage');
 function vexp_loadOnFrontPage()
 {
   if (is_front_page()) vexp_showModal();
 }
-add_action('wp_head', 'vexp_loadOnFrontPage');
 
-
+// sets up the HTML for the setting admin page
 function vexp_settings_page()
 {
   ?>
@@ -67,9 +66,10 @@ function vexp_settings_page()
   <?php
 }
 
+add_action('admin_menu', 'vexp_plugin_menu');
 function vexp_plugin_menu()
 {
   add_options_page("Vex Press Settings", "Vex Press", 'manage_options', 'vexp', 'vexp_settings_page');
 }
-add_action('admin_menu', 'vexp_plugin_menu');
+
 
