@@ -2,6 +2,10 @@
 // = VEX MODAL DIALOG PLUGIN FOR WORDPRESS =
 // ================================== wrm.io
 
+/* pretty basic at this point, just a developer hook
+ * into the Vex lib
+ */
+
 vex.defaultOptions.className = wp_vars.vexstyle; 
 var $ = jQuery; 
 
