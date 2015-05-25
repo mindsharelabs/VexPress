@@ -56,9 +56,7 @@ function vexp_settings_page()
       <?php settings_fields('vexp_options'); ?>
       <label for="vexp_message">Dialog Message</label>
       <br />
-      <textarea type="text" id="vexp_message" name="vexp_message"/>
-        <?php echo esc_attr(get_option('vexp_message')); ?>
-      </textarea>
+      <textarea type="text" id="vexp_message" name="vexp_message"/><?php echo esc_attr(get_option('vexp_message')); ?></textarea>
       <br />
       <input type="submit" name="submit" value="Save Message" />
     </form>
