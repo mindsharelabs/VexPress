@@ -10,7 +10,7 @@ Author:      winston riley
 $pluginDIR = "/wp-content/plugins/VexPress/";
 $vexStyle = "vex-theme-plain";
 
-
+// register the vex press options, a way to pass info to JS.
 function vexp_init()
 {
   register_setting('vexp_options', 'vexp_message');
@@ -44,9 +44,7 @@ function vexp_loadOnFrontPage()
 {
   if (is_front_page()) vexp_showModal();
 }
-
 add_action('wp_head', 'vexp_loadOnFrontPage');
-
 
 
 function vexp_settings_page()
@@ -62,7 +60,7 @@ function vexp_settings_page()
         type="text" 
         id="vexp_message" 
         name="vexp_message" 
-        value="<?php echo esc_attr(get_option('vexp_message')); ?>" />
+        value="<?php echo esc_attr(get_option('vexp_message')); ?>" /> <br />
       <input type="submit" name="submit" value="Save Message" />
     </form>
   </div>
@@ -71,9 +69,7 @@ function vexp_settings_page()
 
 function vexp_plugin_menu()
 {
-  add_options_page("Vex Press", "Vex Press Settings", 'manage_options', 'vexp', 'vexp_settings_page');
+  add_options_page("Vex Press Settings", "Vex Press", 'manage_options', 'vexp', 'vexp_settings_page');
 }
-
-
 add_action('admin_menu', 'vexp_plugin_menu');
 
