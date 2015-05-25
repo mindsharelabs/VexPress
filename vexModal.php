@@ -15,11 +15,14 @@ function showModal()
   global $pluginDIR;
   global $vexStyle;
 
+  // vex replies on both style sheets
   wp_enqueue_style("vex-theme-os", $pluginDIR . "css/{$vexStyle}.css");
   wp_enqueue_style("vex-base", $pluginDIR . "css/vex.css");
+  
+  wp_enqueue_script('vex', $pluginDIR . "js/vex.combined.min.js", array('jquery')); // vex js 
 
-  wp_enqueue_script('vex', $pluginDIR . "js/vex.combined.min.js", array('jquery'));
-  wp_enqueue_script('showModal', $pluginDIR . "js/showModal.js", array('vex'));
+  // js built on top of vex
+  wp_enqueue_script('showModal', $pluginDIR . "showModal.js", array('vex'));
   
   wp_localize_script('showModal', 'wp_vars', array(
     'vexstyle' => $vexStyle,
@@ -32,4 +35,4 @@ function loadOnFrontPage()
 }
 
 
-add_action('wp_head', 'loadOnFrontPage');
+add_action('wp_head', 'showModal');
