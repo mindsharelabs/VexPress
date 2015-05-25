@@ -4,19 +4,24 @@ Plugin Name: vexModal
 Plugin URI:  #
 Description: basic modal dialog using the vex library
 Version:     0.1-alpha
-Author:      winston
+Author:      winston riley
  */
 
 $pluginDIR = "/wp-content/plugins/vexModal/";
 $vexStyle = "vex-theme-wireframe";
-
 $content = "this is jsust some dummy content to see if and how worpress pipes info to java script";
+
+$input = "
+  <input name=\"username\" type=\"text\" placeholder=\"Username\" required />\n
+  <input name=\"password\" type=\"password\" placeholder=\"Password\" required />
+";
 
 function showModal()
 {
   global $pluginDIR;
   global $vexStyle;
   global $content;
+  global $input;
 
   // vex replies on both style sheets
   wp_enqueue_style("vex-theme-os", $pluginDIR . "css/{$vexStyle}.css");
@@ -30,6 +35,7 @@ function showModal()
   wp_localize_script('showModal', 'wp_vars', array(
     'vexstyle' => $vexStyle,
     'content' => $content,
+    'input' => $input
   ));  
 }
 
