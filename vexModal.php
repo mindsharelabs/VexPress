@@ -8,16 +8,24 @@ Author:      winston
  */
 
 
-$pluginDIR = plugins_url() . "vexModal/";
+// $pluginDIR = plugin_dir_path( __FILE__ );
+$pluginDIR = "/wp-content/plugins/vexModal/";
+
+
+function registerVexStyle()
+{
+  global $pluginDIR;
+  wp_enqueue_script('vex', $pluginDIR . "js/vex.combined.min.js", array('jquery'));
+  wp_enqueue_style("vex-theme-os", $pluginDIR . "css/vex-theme-os.css");
+  wp_enqueue_style("vex-base", $pluginDIR . "css/vex.css");
+}
+add_action('wp_enqueue_scripts', 'registerVexStyle');
+
 
 function showModal()
 {
   global $pluginDIR;
-  wp_enqueue_style("vex-theme-os", $pluginDIR . "css/vex-theme-os.css");
-  
-  wp_enqueue_script('vex', $pluginDIR . "js/vex.js", array('jquery'));
-  wp_enqueue_script('showModal', $pluginDIR . "js/showModal.js", array('vex'));
-  
+  wp_enqueue_script('showModal', $pluginDIR . "js/showModal.js", array('vex'));  
 }
 
 function test()
@@ -27,4 +35,4 @@ function test()
 
   
   
-add_action('wp', 'showModal');
+add_action('wp_head', 'showModal');
