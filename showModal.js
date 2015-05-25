@@ -10,7 +10,7 @@ var showFirstSlide = function(call_back){
   vex.dialog.buttons.NO.text = 'I DISAGREE';
   
   vex.dialog.confirm({
-    message: 'Do you Want to be stronger and such?',
+    message: wp_vars.message,
     overlayCSS : {
       'background' : 'rgba(0, 0, 0, 0.8)',
     },

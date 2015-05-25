@@ -11,6 +11,12 @@ $pluginDIR = "/wp-content/plugins/VexPress/";
 $vexStyle = "vex-theme-plain";
 
 
+function vexp_init()
+{
+  register_setting('vexp_options', 'vexp_message');
+}
+add_action('admin_init', 'vexp_init');
+
 
 function vexp_showModal()
 {
@@ -30,6 +36,7 @@ function vexp_showModal()
   
   wp_localize_script('showModal', 'wp_vars', array(
     'vexstyle' => $vexStyle, // sets the dialog box style inside JS.
+    'message' => get_option('vexp_message'),
   ));  
 }
 
@@ -39,3 +46,34 @@ function vexp_loadOnFrontPage()
 }
 
 add_action('wp_head', 'vexp_loadOnFrontPage');
+
+
+
+function vexp_settings_page()
+{
+  ?>
+  <div class = "wrap">
+    <?php screen_icon(); ?>
+    <h2>Vex Press </h2>
+    <form action="options.php" method="post">
+      <?php settings_fields('vexp_options'); ?>
+      <label for="vexp_message">Dialog Message</label> 
+      <input 
+        type="text" 
+        id="vexp_message" 
+        name="vexp_message" 
+        value="<?php echo esc_attr(get_option('vexp_message')); ?>" />
+      <input type="submit" name="submit" value="Save Message" />
+    </form>
+  </div>
+  <?php
+}
+
+function vexp_plugin_menu()
+{
+  add_options_page("Vex Press", "Vex Press Settings", 'manage_options', 'vexp', 'vexp_settings_page');
+}
+
+
+add_action('admin_menu', 'vexp_plugin_menu');
+
