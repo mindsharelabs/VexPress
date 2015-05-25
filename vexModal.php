@@ -10,10 +10,13 @@ Author:      winston
 $pluginDIR = "/wp-content/plugins/vexModal/";
 $vexStyle = "vex-theme-wireframe";
 
+$content = "this is jsust some dummy content to see if and how worpress pipes info to java script";
+
 function showModal()
 {
   global $pluginDIR;
   global $vexStyle;
+  global $content;
 
   // vex replies on both style sheets
   wp_enqueue_style("vex-theme-os", $pluginDIR . "css/{$vexStyle}.css");
@@ -26,6 +29,7 @@ function showModal()
   
   wp_localize_script('showModal', 'wp_vars', array(
     'vexstyle' => $vexStyle,
+    'content' => $content,
   ));  
 }
 
