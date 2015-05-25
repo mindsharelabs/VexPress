@@ -54,12 +54,12 @@ function vexp_settings_page()
     <h2>Vex Press </h2>
     <form action="options.php" method="post">
       <?php settings_fields('vexp_options'); ?>
-      <label for="vexp_message">Dialog Message</label> 
-      <input 
-        type="text" 
-        id="vexp_message" 
-        name="vexp_message" 
-        value="<?php echo esc_attr(get_option('vexp_message')); ?>" /> <br />
+      <label for="vexp_message">Dialog Message</label>
+      <br />
+      <textarea type="text" id="vexp_message" name="vexp_message"/>
+        <?php echo esc_attr(get_option('vexp_message')); ?>
+      </textarea>
+      <br />
       <input type="submit" name="submit" value="Save Message" />
     </form>
   </div>
