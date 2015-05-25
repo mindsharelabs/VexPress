@@ -18,6 +18,7 @@ var showFirstSlide = function(call_back){
     overlayCSS : {
       'background' : 'rgba(0, 0, 0, 0.8)',
     },
+    callback: call_back,
   });
 }
 
