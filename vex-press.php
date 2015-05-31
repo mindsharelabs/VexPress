@@ -383,7 +383,8 @@ if(!class_exists('VEX_PRESS')) :
 
       wp_enqueue_script('showModal', VEXPRESS_DIR_URL . "/assets/js/showModal.js", array('vex'));
 			wp_localize_script('showModal', 'wp_vars', array(
-				'vexStyle'        => $this->vexStyleSheet, // sets the dialog box style inside JS.
+        'vexStyle'        => $this->vexStyleSheet, // sets the dialog box style inside JS.
+        'vexStyle_'       => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_vexstyle'),
 				'vexBtnNo'        => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_disagreeText'),
 				'vexBtnYes'       => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_agreeText'),
         // 'vexOverlayStyle' => $this->vexOverlayStyle,
@@ -398,9 +399,10 @@ if(!class_exists('VEX_PRESS')) :
 		 * Enqueue and register CSS
 		 */
 		public function register_styles() {
-
-			// Vex relies on both stylesheets
-			wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . $this->vexStyleSheet . ".css");
+      // Vex relies on both stylesheets
+      
+      $style = $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_vexstyle');  
+			wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . $style . ".css");
 			wp_enqueue_style("vex-base", VEXPRESS_DIR_URL . "lib/vex/css/vex.css");
 		}
     

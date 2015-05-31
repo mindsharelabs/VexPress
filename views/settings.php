@@ -6,6 +6,16 @@
 add_filter('vex_press_register_settings', 'vex_press_settings');
 
 function vex_press_settings($settings) {
+  
+  $vexStyles  = array(
+    'vex-theme-plain'                 => "Plain",
+    'vex-theme-bottom-right-corner'   => "Bottom Right Corner",
+    'vex-theme-default'               => "Default",
+    'vex-theme-flat-attack'           => "Flat Attack",
+    'vex-theme-os'                    => "O.S.",
+    'vex-theme-top'                   => "Top",
+    'vex-theme-wireframe'             => "wireframe"
+  );
 
 	// VexPress General Settings section
 	$settings[] = array(
@@ -61,6 +71,13 @@ function vex_press_settings($settings) {
 				'title' => 'Visible Title',
 				'desc'  => 'enter the title of the page that the dialog is to be displayed on (special options: all) empty str is front',
 				'type'  => 'text',
+				'std'   => ''
+			),
+			array(
+				'id'    => 'vexp_vexstyle',
+				'title' => 'choose style of the dialog',
+				'type'  => 'radio',
+        'choices' => $vexStyles, 
 				'std'   => ''
 			)
         
