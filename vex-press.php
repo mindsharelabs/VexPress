@@ -407,8 +407,14 @@ if(!class_exists('VEX_PRESS')) :
     private function showModal()
     {
       $pageTitle = $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_pageid'); 
+
+      //show on all pages:
       if (strtolower($pageTitle) == 'all') return true;
+      
+      // show on the front page
       if ($pageTitle == "") return is_front_page(); // default behavior
+      
+      // show on the specified page
       return get_the_title(get_the_ID()) == $pageTitle;
     }
 	}
