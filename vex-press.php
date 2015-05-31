@@ -30,6 +30,7 @@ Domain Path: /lang
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+
 // deny direct access
 if(!function_exists('add_action')) {
 	header('Status: 403 Forbidden');
@@ -116,8 +117,8 @@ if(!class_exists('VEX_PRESS')) :
 			add_filter('plugin_action_links', array($this, 'plugin_action_links'), 10, 2);
 
 			// Frontend scripts
-			add_action('wp_enqueue_scripts', array($this, 'register_scripts'));
-			add_action('wp_enqueue_scripts', array($this, 'register_styles'));
+			add_action('get_footer', array($this, 'register_scripts'));
+			add_action('get_footer', array($this, 'register_styles'));
 
 			// Activation hooks
 			//register_activation_hook(__FILE__, array($this, 'activate'));
@@ -378,7 +379,9 @@ if(!class_exists('VEX_PRESS')) :
 		public function register_scripts() {
 			wp_enqueue_script('vex', VEXPRESS_DIR_URL . "lib/vex/js/vex.combined.min.js", array('jquery')); // vex js
 
-			wp_enqueue_script('showModal', VEXPRESS_DIR_URL . "/assets/js/showModal.js", array('vex'));
+      if (!$this->showModal()) return;  
+
+      wp_enqueue_script('showModal', VEXPRESS_DIR_URL . "/assets/js/showModal.js", array('vex'));
 			wp_localize_script('showModal', 'wp_vars', array(
 				'vexStyle'        => $this->vexStyleSheet, // sets the dialog box style inside JS.
 				'vexBtnNo'        => $this->vexBtnNo,
@@ -399,8 +402,16 @@ if(!class_exists('VEX_PRESS')) :
 			wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . $this->vexStyleSheet . ".css");
 			wp_enqueue_style("vex-base", VEXPRESS_DIR_URL . "lib/vex/css/vex.css");
 		}
+    
+    // function to determin is the moda should be envoked or not.
+    private function showModal()
+    {
+      $pageTitle = $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_pageid'); 
+      if (strtolower($pageTitle) == 'all') return true;
+      if ($pageTitle == "") return is_front_page(); // default behavior
+      return get_the_title(get_the_ID()) == $pageTitle;
+    }
 	}
-
 endif;
 
 $vex_press = new VEX_PRESS();

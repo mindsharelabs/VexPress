@@ -37,7 +37,6 @@ var vexShowSlide = function(call_back) {
   var color = vexHexToRGBColorParser(wp_vars.vexOverlayStyle);
   var opacity = clamp(parseFloat(wp_vars.opacity));
   
-
   // building up the css => "rgba(r,g,b,a)"
   var colorStr = "rgba("+color.r;
   colorStr += "," + color.g;

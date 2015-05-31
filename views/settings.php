@@ -34,6 +34,13 @@ function vex_press_settings($settings) {
 				'desc'  => 'value must be in the range [0,1]',
 				'type'  => 'text',
 				'std'   => ''
+			),
+			array(
+				'id'    => 'vexp_pageid',
+				'title' => 'Page Title',
+				'desc'  => 'enter the title of the page that the dialog is to be displayed on (special options: all) empty str is front',
+				'type'  => 'text',
+				'std'   => ''
 			)
         
 		)
