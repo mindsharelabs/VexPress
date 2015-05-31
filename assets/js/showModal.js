@@ -50,6 +50,12 @@ var vexShowSlide = function(call_back) {
 		},
 		callback: call_back
 	});
+  
+  if (wp_vars.priBtnColor != "#"){
+    jQuery(".vex-dialog-buttons .vex-dialog-button-primary").css({
+      'background-color' : wp_vars.priBtnColor,
+    });
+  }
 };
 
 jQuery(document).ready(function($) {

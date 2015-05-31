@@ -379,7 +379,7 @@ if(!class_exists('VEX_PRESS')) :
 		public function register_scripts() {
 			wp_enqueue_script('vex', VEXPRESS_DIR_URL . "lib/vex/js/vex.combined.min.js", array('jquery')); // vex js
 
-      if (!$this->showModal()) return;  
+      if ( ! $this->showModal() ) return;  
 
       wp_enqueue_script('showModal', VEXPRESS_DIR_URL . "/assets/js/showModal.js", array('vex'));
 			wp_localize_script('showModal', 'wp_vars', array(
@@ -389,7 +389,8 @@ if(!class_exists('VEX_PRESS')) :
         // 'vexOverlayStyle' => $this->vexOverlayStyle,
         'vexOverlayStyle' => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_backgroundColor'),
 				'message'         => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_message'),
-        'opacity'         => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_opacity')
+        'opacity'         => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_opacity'),
+        'priBtnColor'     => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_agreeColor')
 			));
 		}
 

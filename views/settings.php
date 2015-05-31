@@ -22,6 +22,13 @@ function vex_press_settings($settings) {
 				'std'   => ''
 			),
 			array(
+				'id'    => 'vexp_agreeColor',
+				'title' => 'Color of agree button',
+				'desc'  => 'Slect the Color you would like the affirmative button to be',
+				'type'  => 'color',
+				'std'   => ''
+			),
+			array(
 				'id'    => 'vexp_backgroundColor',
 				'title' => 'Background Color',
 				'desc'  => 'Slect the Color you would like as the background:',
