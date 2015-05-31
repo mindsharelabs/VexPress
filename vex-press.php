@@ -97,19 +97,6 @@ if(!class_exists('VEX_PRESS')) :
 		 * @var vex_press_settings
 		 */
 		private $settings_framework;
-
-		/**
-		 * @var string Default Vex Stylesheet.
-		 */
-		public $vexStyleSheet;
-		/**
-		 * @var string Default Vex Yes/confrim text..
-		 */
-		public $vexBtnYes;
-		/**
-		 * @var string Default Vex No/cancel text.
-		 */
-		public $vexBtnNo;
 		
 		/**
 		 * Initialize the plugin. Set up actions / filters.
@@ -149,13 +136,7 @@ if(!class_exists('VEX_PRESS')) :
 			//$this->settings_framework->show_reset_button = FALSE;
 			//$this->settings_framework->show_uninstall_button = FALSE;
 
-			// allow user to override the default vex stuff
-			$this->vexStyleSheet = apply_filters('vex_press_theme', 'vex-theme-plain');
-			$this->vexBtnNo = apply_filters('vex_press_no', __('CANCEL', 'vex-press'));
-			$this->vexBtnYes = apply_filters('vex_press_yes', __('OK', 'vex-press'));
-
 			add_action('init', array($this, 'init'), 0, 0); // filterable init action
-
 		}
 
 		/**
@@ -393,11 +374,9 @@ if(!class_exists('VEX_PRESS')) :
 
       wp_enqueue_script('showModal', VEXPRESS_DIR_URL . "/assets/js/showModal.js", array('vex'));
 			wp_localize_script('showModal', 'wp_vars', array(
-        'vexStyle'        => $this->vexStyleSheet, // sets the dialog box style inside JS.
-        'vexStyle_'       => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_vexstyle'),
+        'vexStyle'       => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_vexstyle'),
 				'vexBtnNo'        => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_disagreeText'),
 				'vexBtnYes'       => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_agreeText'),
-        // 'vexOverlayStyle' => $this->vexOverlayStyle,
         'vexOverlayStyle' => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_backgroundColor'),
 				'message'         => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_message'),
         'opacity'         => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_opacity'),
