@@ -5,8 +5,9 @@
 jQuery.noConflict();
 
 vex.defaultOptions.showCloseButton = true;
-vex.defaultOpacity = .6;
+vex.defaultOpacity = .65;
 vex.defaultTheme = 'vex-theme-plain';
+
 /**
  * Parse a hex string in the format of "#xxxxxx"
  * into a color obj
@@ -22,14 +23,22 @@ var vexHexToRGBColorParser = function(hex){
 }
 
 /**
- * clamps the specified value beween 0 and 1.
+ * clamp :: float -> float
+ * clamps the specified value beween floor and ceiling.
+ * returns NaN on failiure.
+ *
+ * default vals floor = 0,
+ *              ceiling = 1.
  */
-var clamp = function(val) {
-  if (isNaN(val)) return vex.defaultOpacity;
-  return Math.max(0, Math.min(1, val) );
+var clamp = function(val, floor, ceiling) {
+  floor = typeof floor !== 'undefined' ? floor : 0;
+  ceiling = typeof ceiling !== 'undefined' ? ceiling : 1;
+
+  return Math.max(floor, Math.min(ceiling, val));
 }
 
 var vexShowSlide = function(call_back) {
+  // in case no style has been selected in the setting page.
   vex.defaultOptions.className = wp_vars.vexStyle || vex.defaultTheme;
   
 	vex.dialog.buttons.YES.text = wp_vars.vexBtnYes;
@@ -37,6 +46,7 @@ var vexShowSlide = function(call_back) {
 
   var color = vexHexToRGBColorParser(wp_vars.vexOverlayStyle);
   var opacity = clamp(parseFloat(wp_vars.opacity));
+  if (isNaN(opacity)) opacity = vex.defaultOpacity;
   
   // building up the css => "rgba(r,g,b,a)"
   var colorStr = "rgba("+color.r;
