@@ -20,7 +20,22 @@ function vex_press_settings($settings) {
 				'desc'  => 'Enter content for your Vex modal dialog',
 				'type'  => 'editor',
 				'std'   => ''
+			),
+			array(
+				'id'    => 'vexp_backgroundColor',
+				'title' => 'Background Color',
+				'desc'  => 'Slect the Color you would like as the background:',
+				'type'  => 'color',
+				'std'   => ''
+			),
+			array(
+				'id'    => 'vexp_opacity',
+				'title' => 'Opacity',
+				'desc'  => 'value must be in the range [0,1]',
+				'type'  => 'text',
+				'std'   => ''
 			)
+        
 		)
 	);
 
