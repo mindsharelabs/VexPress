@@ -29,6 +29,20 @@ function vex_press_settings($settings) {
 				'std'   => ''
 			),
 			array(
+				'id'    => 'vexp_agreeText',
+				'title' => 'confirm button text',
+				'desc'  => 'enter the text you would like displayed as the <strong>confirm</strong> button',
+				'type'  => 'text',
+				'std'   => 'OK'
+			),
+			array(
+				'id'    => 'vexp_disagreeText',
+				'title' => 'cancell button text',
+				'desc'  => 'enter the text you would like displayed as the <strong>cancel</strong> button',
+				'type'  => 'text',
+				'std'   => 'CANCEL'
+			),
+			array(
 				'id'    => 'vexp_backgroundColor',
 				'title' => 'Background Color',
 				'desc'  => 'Slect the Color you would like as the background:',
@@ -44,7 +58,7 @@ function vex_press_settings($settings) {
 			),
 			array(
 				'id'    => 'vexp_pageid',
-				'title' => 'Page Title',
+				'title' => 'Visible Title',
 				'desc'  => 'enter the title of the page that the dialog is to be displayed on (special options: all) empty str is front',
 				'type'  => 'text',
 				'std'   => ''
