@@ -31,6 +31,16 @@ Domain Path: /lang
  */
 
 
+function debug_to_console( $data ) {
+
+    if ( is_array( $data ) )
+        $output = "<script>console.log( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
+    else
+        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+
+    echo $output;
+}
+
 // deny direct access
 if(!function_exists('add_action')) {
 	header('Status: 403 Forbidden');
@@ -399,11 +409,15 @@ if(!class_exists('VEX_PRESS')) :
 		 * Enqueue and register CSS
 		 */
 		public function register_styles() {
-      // Vex relies on both stylesheets
       
-      $style = $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_vexstyle');  
-			wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . $style . ".css");
-			wp_enqueue_style("vex-base", VEXPRESS_DIR_URL . "lib/vex/css/vex.css");
+      $style = $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_vexstyle');
+      if ($style){  
+			  wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . $style . ".css");
+      } else {
+        wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . 'vex-theme-plain' . ".css");
+      }
+			
+      wp_enqueue_style("vex-base", VEXPRESS_DIR_URL . "lib/vex/css/vex.css");
 		}
     
     // function to determin is the moda should be envoked or not.

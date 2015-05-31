@@ -6,7 +6,7 @@ jQuery.noConflict();
 
 vex.defaultOptions.showCloseButton = true;
 vex.defaultOpacity = .6;
-
+vex.defaultTheme = 'vex-theme-plain';
 /**
  * Parse a hex string in the format of "#xxxxxx"
  * into a color obj
@@ -30,12 +30,7 @@ var clamp = function(val) {
 }
 
 var vexShowSlide = function(call_back) {
-  vex.defaultOptions.className = wp_vars.vexStyle_;
-    // vex.defaultOptions.className = "vex-theme-bottom-right-corner";
-
-  console.log("wp_vars.vexStyle: " + wp_vars.vexStyle);
-  console.log("VS:")
-  console.log("wp_vars.vexStyle_: " + wp_vars.vexStyle_);
+  vex.defaultOptions.className = wp_vars.vexStyle_ || vex.defaultTheme;
   
 	vex.dialog.buttons.YES.text = wp_vars.vexBtnYes;
 	vex.dialog.buttons.NO.text = wp_vars.vexBtnNo;
