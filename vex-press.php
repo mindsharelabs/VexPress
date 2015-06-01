@@ -30,6 +30,17 @@ Domain Path: /lang
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+
+function debug_to_console( $data ) {
+
+    if ( is_array( $data ) )
+        $output = "<script>console.log( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
+    else
+        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+
+    echo $output;
+}
+
 // deny direct access
 if(!function_exists('add_action')) {
 	header('Status: 403 Forbidden');
@@ -86,24 +97,7 @@ if(!class_exists('VEX_PRESS')) :
 		 * @var vex_press_settings
 		 */
 		private $settings_framework;
-
-		/**
-		 * @var string Default Vex Stylesheet.
-		 */
-		public $vexStyleSheet;
-		/**
-		 * @var string Default Vex Yes/confrim text..
-		 */
-		public $vexBtnYes;
-		/**
-		 * @var string Default Vex No/cancel text.
-		 */
-		public $vexBtnNo;
-		/**
-		 * @var string Default Vex overlay CSS.
-		 */
-		public $vexOverlayStyle;
-
+		
 		/**
 		 * Initialize the plugin. Set up actions / filters.
 		 */
@@ -120,8 +114,8 @@ if(!class_exists('VEX_PRESS')) :
 			add_filter('plugin_action_links', array($this, 'plugin_action_links'), 10, 2);
 
 			// Frontend scripts
-			add_action('wp_enqueue_scripts', array($this, 'register_scripts'));
-			add_action('wp_enqueue_scripts', array($this, 'register_styles'));
+			add_action('get_footer', array($this, 'register_scripts'));
+			add_action('get_footer', array($this, 'register_styles'));
 
 			// Activation hooks
 			//register_activation_hook(__FILE__, array($this, 'activate'));
@@ -142,14 +136,7 @@ if(!class_exists('VEX_PRESS')) :
 			//$this->settings_framework->show_reset_button = FALSE;
 			//$this->settings_framework->show_uninstall_button = FALSE;
 
-			// allow user to override the default vex stuff
-			$this->vexStyleSheet = apply_filters('vex_press_theme', 'vex-theme-plain');
-			$this->vexBtnNo = apply_filters('vex_press_no', __('I DISAGREE', 'vex-press'));
-			$this->vexBtnYes = apply_filters('vex_press_yes', __('I AGREE', 'vex-press'));
-			$this->vexOverlayStyle = apply_filters('vex_press_overlay_css', 'rgba(0, 0, 0, 0.8)');
-
 			add_action('init', array($this, 'init'), 0, 0); // filterable init action
-
 		}
 
 		/**
@@ -383,13 +370,17 @@ if(!class_exists('VEX_PRESS')) :
 		public function register_scripts() {
 			wp_enqueue_script('vex', VEXPRESS_DIR_URL . "lib/vex/js/vex.combined.min.js", array('jquery')); // vex js
 
-			wp_enqueue_script('showModal', VEXPRESS_DIR_URL . "/assets/js/showModal.js", array('vex'));
+      if ( ! $this->showModal() ) return;  
+
+      wp_enqueue_script('showModal', VEXPRESS_DIR_URL . "/assets/js/showModal.js", array('vex'));
 			wp_localize_script('showModal', 'wp_vars', array(
-				'vexStyle'        => $this->vexStyleSheet, // sets the dialog box style inside JS.
-				'vexBtnNo'        => $this->vexBtnNo,
-				'vexBtnYes'       => $this->vexBtnYes,
-				'vexOverlayStyle' => $this->vexOverlayStyle,
-				'message'         => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_message')
+        'vexStyle'       => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_vexstyle'),
+				'vexBtnNo'        => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_disagreeText'),
+				'vexBtnYes'       => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_agreeText'),
+        'vexOverlayStyle' => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_backgroundColor'),
+				'message'         => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_message'),
+        'opacity'         => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_opacity'),
+        'priBtnColor'     => $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_agreeColor')
 			));
 		}
 
@@ -397,13 +388,32 @@ if(!class_exists('VEX_PRESS')) :
 		 * Enqueue and register CSS
 		 */
 		public function register_styles() {
-
-			// Vex relies on both stylesheets
-			wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . $this->vexStyleSheet . ".css");
-			wp_enqueue_style("vex-base", VEXPRESS_DIR_URL . "lib/vex/css/vex.css");
+      
+      $style = $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_vexstyle');
+      if ($style){  
+			  wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . $style . ".css");
+      } else {
+        wp_enqueue_style("vex-theme-os", VEXPRESS_DIR_URL . "lib/vex/css/" . 'vex-theme-plain' . ".css");
+      }
+			
+      wp_enqueue_style("vex-base", VEXPRESS_DIR_URL . "lib/vex/css/vex.css");
 		}
-	}
+    
+    // function to determin is the moda should be envoked or not.
+    private function showModal()
+    {
+      $pageTitle = $this->get_setting(VEXPRESS_OPTIONS, 'general', 'vexp_pageid'); 
 
+      //show on all pages:
+      if (strtolower($pageTitle) == 'all') return true;
+      
+      // show on the front page
+      if ($pageTitle == "") return is_front_page(); // default behavior
+      
+      // show on the specified page
+      return get_the_title(get_the_ID()) == $pageTitle;
+    }
+	}
 endif;
 
 $vex_press = new VEX_PRESS();
